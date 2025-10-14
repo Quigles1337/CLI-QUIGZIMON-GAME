@@ -1,0 +1,20 @@
+# Compiled files
+*.o
+*.obj
+*.exe
+game
+
+# Build artifacts
+*.bin
+*.out
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
