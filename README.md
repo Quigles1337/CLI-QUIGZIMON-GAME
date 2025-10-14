@@ -14,7 +14,7 @@ A complete monster-catching RPG written entirely in x86-64 assembly (NASM), insp
 ### Classic Version (`game.asm`)
 Simple battle demo with basic mechanics - great for learning!
 
-### Enhanced Version (`game_enhanced.asm`) ⭐ NEW!
+### Enhanced Version (`game_enhanced.asm`) ⭐
 **Full RPG experience with ALL features implemented:**
 
 ✅ **6 Unique QUIGZIMON Species**
@@ -28,6 +28,18 @@ Simple battle demo with basic mechanics - great for learning!
 ✅ **World Map Navigation** (Explore & adventure)
 ✅ **Save/Load System** (Keep your progress!)
 ✅ **Party Management** (Collect up to 6 QUIGZIMON)
+
+### XRPL Blockchain Version 🚀 **NEWEST!**
+**First blockchain-enabled game in pure assembly!**
+
+⛓️ **QUIGZIMON as NFTs** - Mint your catches on XRP Ledger
+💰 **XRP Integration** - Check balances, send transactions
+🎨 **NFT Metadata** - Full attribute encoding
+🔐 **Ed25519 Signing** - Transaction signatures via libsodium
+📊 **Trading System** (Coming Soon) - Buy/sell QUIGZIMON
+⚔️ **PvP Battles** (Coming Soon) - Wager XRP on battles
+
+**See [SETUP_XRPL.md](SETUP_XRPL.md) for installation!**
 
 ## 🌟 QUIGZIMON Species
 
