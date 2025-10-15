@@ -487,9 +487,21 @@ quigzimon/
 │   ├── xrpl_base58.asm             Base58 encoding (~700 lines)
 │   ├── xrpl_serialization.asm      Transaction binary (~600 lines)
 │   ├── xrpl_nft_complete.asm       Complete workflow (~700 lines)
-│   ├── nft_launchpad.asm           NFT-gated entry (~800 lines) ✨ NEW!
-│   ├── game_nft_launcher.asm       Main launcher (~700 lines) ✨ NEW!
+│   ├── nft_launchpad.asm           NFT-gated entry (~800 lines) ✨
+│   ├── game_nft_launcher.asm       Main launcher (~700 lines) ✨
 │   └── xrpl_demo.asm                Demo mode (~400 lines)
+│
+├── 🏪 NFT Marketplace 🆕
+│   ├── marketplace_core.asm         Trading engine (~1,200 lines)
+│   └── marketplace_ui.asm           User interface (~1,300 lines)
+│
+├── ⚔️ PvP Wager System 🆕
+│   ├── pvp_wager.asm                Escrow battles (~1,100 lines)
+│   └── pvp_matchmaking.asm          Lobby & matchmaking (~1,200 lines)
+│
+├── ✨ NFT Evolution 🆕
+│   ├── nft_evolution.asm            Burn/mint engine (~1,100 lines)
+│   └── evolution_ui.asm             Evolution chamber (~1,100 lines)
 │
 ├── 🧠 Machine Learning AI
 │   ├── ai_qlearning.asm             Q-Learning (~900 lines)
@@ -501,22 +513,25 @@ quigzimon/
 ├── 🛠️ Build System
 │   ├── build.bat / .sh              Classic build
 │   ├── build_enhanced.bat / .sh    Enhanced build
-│   └── build_xrpl.bat               Full build with crypto
+│   ├── build_xrpl.bat               Full build with crypto
+│   ├── build_nft_launcher.bat      NFT Launchpad build ✨
+│   └── build_marketplace.bat        Complete economy build 🆕
 │
 └── 📚 Documentation
     ├── README.md                    This file
+    ├── BLOCKCHAIN_ECONOMY_GUIDE.md Complete economy guide 🆕
+    ├── NFT_LAUNCHPAD_GUIDE.md      Launchpad walkthrough ✨
+    ├── NFT_MINTING_GUIDE.md        NFT minting tutorial ✨
+    ├── IMPLEMENTATION_SUMMARY.md   Technical deep-dive ✨
+    ├── WHATS_NEW.md                 Latest updates
+    ├── PROJECT_SUMMARY.md           Complete overview
     ├── FEATURES.md                  Complete feature list
     ├── QUICKSTART.md                Quick reference
     ├── AI_SYSTEM.md                 ML documentation
     ├── AI_TOURNAMENT.md             Tournament guide
     ├── XRPL_INTEGRATION.md         Blockchain architecture
     ├── XRPL_STATUS.md               Development roadmap
-    ├── SETUP_XRPL.md                Installation guide
-    ├── NFT_MINTING_GUIDE.md        NFT minting tutorial
-    ├── NFT_LAUNCHPAD_GUIDE.md      Launchpad walkthrough ✨ NEW!
-    ├── IMPLEMENTATION_SUMMARY.md   Technical deep-dive
-    ├── WHATS_NEW.md                 Latest updates
-    └── PROJECT_SUMMARY.md           Complete overview
+    └── SETUP_XRPL.md                Installation guide
 ```
 
 ---
