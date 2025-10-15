@@ -8,11 +8,6 @@
 ╚═══════════════════════════════════════════════════════════╝
 ```
 
-[![Assembly](https://img.shields.io/badge/Assembly-x86--64-blue.svg)](https://en.wikipedia.org/wiki/X86-64)
-[![NASM](https://img.shields.io/badge/NASM-2.14%2B-green.svg)](https://www.nasm.us/)
-[![XRPL](https://img.shields.io/badge/XRPL-Integrated-orange.svg)](https://xrpl.org/)
-[![AI](https://img.shields.io/badge/AI-Q--Learning%20%2B%20DQN-red.svg)](https://en.wikipedia.org/wiki/Q-learning)
-[![License](https://img.shields.io/badge/License-Open%20Source-yellow.svg)](LICENSE)
 
 **The world's first Pokemon-inspired RPG with blockchain NFTs and machine learning AI - all in pure assembly language!**
 
