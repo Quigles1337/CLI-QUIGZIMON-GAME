@@ -50,7 +50,23 @@ if %ERRORLEVEL% NEQ 0 (
     exit /b 1
 )
 
-echo [4/6] Assembling XRPL NFT module...
+echo [4/6] Assembling Base58 encoder...
+nasm -f win64 xrpl_base58.asm -o xrpl_base58.obj
+if %ERRORLEVEL% NEQ 0 (
+    echo ERROR: Base58 assembly failed!
+    pause
+    exit /b 1
+)
+
+echo [5/6] Assembling XRPL serialization...
+nasm -f win64 xrpl_serialization.asm -o xrpl_serialization.obj
+if %ERRORLEVEL% NEQ 0 (
+    echo ERROR: Serialization assembly failed!
+    pause
+    exit /b 1
+)
+
+echo [6/6] Assembling XRPL NFT module...
 nasm -f win64 xrpl_nft.asm -o xrpl_nft.obj
 if %ERRORLEVEL% NEQ 0 (
     echo ERROR: XRPL NFT assembly failed!
@@ -58,7 +74,15 @@ if %ERRORLEVEL% NEQ 0 (
     exit /b 1
 )
 
-echo [5/6] Assembling main game...
+echo [7/6] Assembling complete NFT integration...
+nasm -f win64 xrpl_nft_complete.asm -o xrpl_nft_complete.obj
+if %ERRORLEVEL% NEQ 0 (
+    echo ERROR: NFT integration assembly failed!
+    pause
+    exit /b 1
+)
+
+echo [8/6] Assembling main game...
 nasm -f win64 game_enhanced.asm -o game_enhanced.obj
 if %ERRORLEVEL% NEQ 0 (
     echo ERROR: Game assembly failed!
@@ -66,8 +90,8 @@ if %ERRORLEVEL% NEQ 0 (
     exit /b 1
 )
 
-echo [6/6] Linking with libsodium...
-link game_enhanced.obj xrpl_client.obj xrpl_nft.obj xrpl_crypto_bridge.obj xrpl_crypto_wrapper.obj ^
+echo [9/6] Linking with libsodium...
+link game_enhanced.obj xrpl_client.obj xrpl_base58.obj xrpl_serialization.obj xrpl_nft.obj xrpl_nft_complete.obj xrpl_crypto_bridge.obj xrpl_crypto_wrapper.obj ^
      /LIBPATH:"C:\vcpkg\installed\x64-windows\lib" ^
      libsodium.lib ^
      ws2_32.lib ^
