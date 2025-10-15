@@ -461,7 +461,6 @@ Created by **Quigles1337**
 
 Open source - learn, modify, and adapt freely!
 
-Co-authored with **Claude Code** (Anthropic)
 
 ---
 
