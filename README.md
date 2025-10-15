@@ -469,19 +469,19 @@ MEGA QUIGFLAME (ATK 66!!) ← 3.0x total!
 ║         Choose Evolution Path!                 ║
 ╠════════════════════════════════════════════════╣
 ║                                                ║
-║  1) ⚔️  Attack Form  - Devastating damage     ║
-║      ATK: 22 → 44  (2.0x!)                     ║
-║      SPD: 18 → 25  (1.4x)                      ║
-║                                                ║
-║  2) 🛡️  Defense Form - Impenetrable tank      ║
-║      HP:  65 → 117 (1.8x!)                    ║
-║      DEF: 16 → 32  (2.0x!)                    ║
-║                                               ║
-║  3) ⚡ Speed Form   - Lightning fast          ║
-║      SPD: 18 → 36  (2.0x!)                    ║
-║      ATK: 22 → 33  (1.5x)                     ║
-║                                               ║
-║  4) ✨ Balanced Form - Well-rounded           ║
+║  1) ⚔️  Attack Form  - Devastating damage     
+║      ATK: 22 → 44  (2.0x!)                     
+║      SPD: 18 → 25  (1.4x)                      
+║                                                
+║  2) 🛡️  Defense Form - Impenetrable tank      
+║      HP:  65 → 117 (1.8x!)                    
+║      DEF: 16 → 32  (2.0x!)                    
+║                                               
+║  3) ⚡ Speed Form   - Lightning fast          
+║      SPD: 18 → 36  (2.0x!)                    
+║      ATK: 22 → 33  (1.5x)                     
+║                                               
+║  4) ✨ Balanced Form - Well-rounded           
 ║      ALL STATS: 1.5x                           ║
 ║                                                ║
 ╚════════════════════════════════════════════════╝
