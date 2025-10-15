@@ -23,10 +23,11 @@
 5. ✨ **First game combining: RPG + Blockchain + ML in assembly**
 
 ### **📊 Project Scale:**
-- **18,600+ lines** of code and documentation
+- **19,400+ lines** of code and documentation
 - **3 Major Systems:** Game Engine, Blockchain, AI
-- **60+ Features:** From catching to cryptography
+- **65+ Features:** From catching to cryptography
 - **100% Assembly:** Game logic has zero dependencies
+- **🚀 NFT Launchpad:** Blockchain-gated game entry! ✨ **NEW!**
 
 ---
 
@@ -154,14 +155,27 @@ chmod +x build_enhanced.sh && ./build_enhanced.sh
 ./quigzimon
 ```
 
-**Option 2: With Blockchain (Full Features)**
+**Option 2: NFT Launchpad (Blockchain-Gated!)** ✨ **NEW!**
+```batch
+# Windows (needs libsodium via vcpkg)
+build_nft_launcher.bat
+quigzimon_nft_launcher.exe
+
+# Features:
+#  - Guided NFT minting for starter
+#  - Automatic wallet creation
+#  - Testnet faucet integration
+#  - Full blockchain-gated entry!
+```
+
+**Option 3: With Blockchain (Standard)**
 ```batch
 # Windows (needs libsodium via vcpkg)
 build_xrpl.bat
 quigzimon_xrpl.exe
 ```
 
-**Option 3: Classic Demo**
+**Option 4: Classic Demo**
 ```batch
 build.bat
 game.exe
@@ -250,6 +264,40 @@ Options:
 
 ## ⛓️ Blockchain Features
 
+### **🚀 NFT LAUNCHPAD - Blockchain-Gated Entry** ✨ **BRAND NEW!**
+
+**The world's first blockchain-gated game in pure assembly!**
+
+Instead of just choosing a starter, players must **MINT their starter QUIGZIMON as an NFT** before beginning the game. This creates true ownership from the very first moment!
+
+**How It Works:**
+```
+1. Launch game → Automatic wallet creation
+2. Visit testnet faucet → Get FREE XRP
+3. Choose starter (QUIGFLAME/QUIGWAVE/QUIGLEAF)
+4. Mint as NFT on XRPL → Real blockchain transaction!
+5. Game unlocked → Begin adventure with your NFT!
+```
+
+**Features:**
+- ✅ **Guided onboarding** - Step-by-step NFT minting
+- ✅ **Auto wallet creation** - Generate XRPL wallet automatically
+- ✅ **Progress indicators** - See minting progress in real-time
+- ✅ **Testnet faucet integration** - Clear funding instructions
+- ✅ **Starter selection UI** - Choose from 3 starters
+- ✅ **NFT verification** - Only play with minted NFT
+- ✅ **Pure assembly** - ~1,500 lines of blockchain UX code!
+
+**Run the NFT Launchpad:**
+```batch
+build_nft_launcher.bat
+quigzimon_nft_launcher.exe
+```
+
+**See:** [NFT_LAUNCHPAD_GUIDE.md](NFT_LAUNCHPAD_GUIDE.md) for complete walkthrough
+
+---
+
 ### **NFT Integration (XRPL)**
 
 **🎉 NOW LIVE - Mint NFTs on Testnet!**
@@ -311,9 +359,11 @@ quigzimon/
 │   ├── xrpl_crypto.asm              Crypto foundation (~800 lines)
 │   ├── xrpl_crypto_bridge.asm      Assembly↔C bridge (~400 lines)
 │   ├── xrpl_crypto_wrapper.c       Libsodium interface (~350 lines)
-│   ├── xrpl_base58.asm             Base58 encoding (~700 lines) ✨ NEW
-│   ├── xrpl_serialization.asm      Transaction binary (~600 lines) ✨ NEW
-│   ├── xrpl_nft_complete.asm       Complete workflow (~700 lines) ✨ NEW
+│   ├── xrpl_base58.asm             Base58 encoding (~700 lines)
+│   ├── xrpl_serialization.asm      Transaction binary (~600 lines)
+│   ├── xrpl_nft_complete.asm       Complete workflow (~700 lines)
+│   ├── nft_launchpad.asm           NFT-gated entry (~800 lines) ✨ NEW!
+│   ├── game_nft_launcher.asm       Main launcher (~700 lines) ✨ NEW!
 │   └── xrpl_demo.asm                Demo mode (~400 lines)
 │
 ├── 🧠 Machine Learning AI
@@ -337,9 +387,10 @@ quigzimon/
     ├── XRPL_INTEGRATION.md         Blockchain architecture
     ├── XRPL_STATUS.md               Development roadmap
     ├── SETUP_XRPL.md                Installation guide
-    ├── NFT_MINTING_GUIDE.md        NFT minting tutorial ✨ NEW
-    ├── IMPLEMENTATION_SUMMARY.md   Technical deep-dive ✨ NEW
-    ├── WHATS_NEW.md                 Latest updates ✨ NEW
+    ├── NFT_MINTING_GUIDE.md        NFT minting tutorial
+    ├── NFT_LAUNCHPAD_GUIDE.md      Launchpad walkthrough ✨ NEW!
+    ├── IMPLEMENTATION_SUMMARY.md   Technical deep-dive
+    ├── WHATS_NEW.md                 Latest updates
     └── PROJECT_SUMMARY.md           Complete overview
 ```
 
