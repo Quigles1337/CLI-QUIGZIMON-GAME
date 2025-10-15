@@ -98,12 +98,22 @@ Wild QUIGZIMON that learn and adapt!
 - 484 weights + 36 biases
 - ReLU activation
 - Target network for stability
-- Backpropagation ready
-- Feedforward in pure assembly!
+- **Complete backpropagation** ✅
+- Full gradient descent ✅
+- SGD weight updates ✅
+
+**AI Tournament System** (NEW!):
+- AI vs AI battles
+- 4 personality archetypes
+- 8-agent championship brackets
+- Spectator mode
+- Real-time statistics
 
 **Files:**
 - `ai_qlearning.asm` - Q-Learning (~900 lines)
-- `ai_dqn.asm` - Deep Q-Network (~800 lines)
+- `ai_dqn.asm` - Deep Q-Network (~1,100 lines)
+- `ai_tournament.asm` - Tournament system (~1,000 lines)
+- `ai_tournament_demo.asm` - Interactive demo (~500 lines)
 - `ai_demo.asm` - Training visualization (~500 lines)
 
 ---
@@ -288,7 +298,9 @@ quigzimon/
 │
 ├── 🧠 Machine Learning AI
 │   ├── ai_qlearning.asm             Q-Learning (~900 lines)
-│   ├── ai_dqn.asm                   Deep Q-Network (~800 lines)
+│   ├── ai_dqn.asm                   Deep Q-Network (~1,100 lines)
+│   ├── ai_tournament.asm            Tournament system (~1,000 lines)
+│   ├── ai_tournament_demo.asm      Interactive demo (~500 lines)
 │   └── ai_demo.asm                  Visualization (~500 lines)
 │
 ├── 🛠️ Build System
@@ -301,6 +313,7 @@ quigzimon/
     ├── FEATURES.md                  Complete feature list
     ├── QUICKSTART.md                Quick reference
     ├── AI_SYSTEM.md                 ML documentation
+    ├── AI_TOURNAMENT.md             Tournament guide (NEW!)
     ├── XRPL_INTEGRATION.md         Blockchain architecture
     ├── XRPL_STATUS.md               Development roadmap
     ├── SETUP_XRPL.md                Installation guide
@@ -352,9 +365,9 @@ quigzimon/
 |-----------|-------|------------|
 | Game Engine | 1,600 | x86-64 Assembly |
 | XRPL Integration | 3,000 | Assembly + C |
-| AI Systems | 2,200 | Assembly |
-| Documentation | 5,000 | Markdown |
-| **Total** | **~12,000** | **Pure Awesome** |
+| AI Systems | 4,000 | Assembly |
+| Documentation | 7,000 | Markdown |
+| **Total** | **~16,000** | **Pure Awesome** |
 
 ### **Memory Footprint**
 
@@ -363,9 +376,10 @@ quigzimon/
 | Q-Table | 1.5 KB |
 | DQN Weights | 1.8 KB |
 | Replay Buffer | 7 KB |
+| Tournament (8 agents) | 14 KB |
 | HTTP Buffers | 16 KB |
 | Game State | 2 KB |
-| **Total** | **~28 KB** |
+| **Total** | **~42 KB** |
 
 Incredibly efficient!
 
@@ -435,6 +449,7 @@ NFT Standard: XLS-20
 | [FEATURES.md](FEATURES.md) | All game mechanics |
 | [QUICKSTART.md](QUICKSTART.md) | Quick reference |
 | [AI_SYSTEM.md](AI_SYSTEM.md) | ML documentation |
+| [AI_TOURNAMENT.md](AI_TOURNAMENT.md) | **Tournament guide (NEW!)** |
 | [XRPL_INTEGRATION.md](XRPL_INTEGRATION.md) | Blockchain design |
 | [XRPL_STATUS.md](XRPL_STATUS.md) | Development status |
 | [SETUP_XRPL.md](SETUP_XRPL.md) | Installation guide |
@@ -491,14 +506,15 @@ Open source - learn, modify, and adapt freely!
 **Completed ✅**
 - [x] Full RPG system
 - [x] Q-Learning AI
-- [x] Deep Q-Network foundation
+- [x] Deep Q-Network with backpropagation
+- [x] AI Tournament System (NEW!)
+- [x] 4 Personality archetypes (NEW!)
 - [x] HTTP/JSON client
 - [x] NFT metadata generation
 - [x] Ed25519 signing
 - [x] Save/load system
 
 **In Progress 🚧**
-- [ ] DQN backpropagation
 - [ ] Transaction serialization
 - [ ] Base58 encoding
 - [ ] NFT minting on testnet
@@ -509,7 +525,6 @@ Open source - learn, modify, and adapt freely!
 - [ ] Evolution system
 - [ ] Breeding mechanics
 - [ ] More species (10+)
-- [ ] AI tournaments
 - [ ] Mainnet launch
 
 ---

@@ -366,24 +366,107 @@ epsilon_min = 0.0  ; No randomness
 
 ## 🔬 Advanced Features
 
-### Potential Enhancements
+### 1. Deep Q-Network (DQN) - NOW IMPLEMENTED! ✅
 
-**1. Deep Q-Learning (DQN)**
-- Use neural network instead of Q-table
-- Better generalization
-- More complex state representation
+QUIGZIMON now features a **complete Deep Q-Network** with full backpropagation!
 
-**2. Multi-Agent Learning**
-- Different AI personalities per species
-- Competitive co-evolution
-- Team battles with cooperation
+**Architecture:**
+```
+Input (8) → Hidden1 (16) → Hidden2 (16) → Output (4)
+            ReLU            ReLU            Linear
+```
 
-**3. Transfer Learning**
+**Network Details:**
+- **Total weights:** 484 (128 + 256 + 64 + 36 biases)
+- **Activation:** ReLU for hidden layers
+- **Training:** Stochastic Gradient Descent (SGD)
+- **Learning rate:** 0.05 (fixed-point: 205)
+- **Target network:** Updated every 100 steps
+
+**Key Components:**
+```assembly
+; Forward pass
+call dqn_forward
+; → layer_output_activated contains Q-values
+
+; Backpropagation (COMPLETE!)
+call dqn_backward
+; → Computes all gradients via chain rule
+
+; Weight update
+call dqn_update_weights
+; → Updates all 484 weights + 36 biases
+```
+
+**Gradient Computation:**
+- Output layer: `∂L/∂W₃ = ∂L/∂output × layer₂ᵀ`
+- Hidden layer 2: `∂L/∂layer₂ = W₃ᵀ × ∂L/∂output × ReLU'(layer₂)`
+- Hidden layer 1: `∂L/∂layer₁ = W₂ᵀ × ∂L/∂layer₂ × ReLU'(layer₁)`
+
+All implemented in **pure assembly** with fixed-point math!
+
+See [ai_dqn.asm](ai_dqn.asm) for complete implementation.
+
+---
+
+### 2. Multi-Agent Tournament System - NOW IMPLEMENTED! ✅
+
+**AI vs AI battles** with 4 distinct personality archetypes!
+
+**Personality Archetypes:**
+
+| Archetype | Strategy | Modifiers |
+|-----------|----------|-----------|
+| **AGGRESSIVE** | High-risk offense | +50% attack, -25% defense |
+| **DEFENSIVE** | Conservative endurance | +50% defense, -12.5% attack |
+| **BALANCED** | Pure Q-learning | No bias |
+| **STRATEGIC** | Type advantage focus | +75% w/ advantage, -50% w/ disadvantage |
+
+**Tournament Modes:**
+```assembly
+; Quick Match (2 agents)
+mov rdi, 0  ; Agent 0: AGGRESSIVE
+mov rsi, 1  ; Agent 1: DEFENSIVE
+call agent_vs_agent
+; → Returns winner ID in rax
+
+; Full Championship (8 agents)
+mov rdi, 8
+call tournament_init
+call tournament_run
+; → Runs quarterfinals, semifinals, finals
+```
+
+**Agent Structure:**
+Each agent has:
+- Personal Q-table (1,536 bytes)
+- Personality modifier
+- 6-QUIGZIMON roster
+- Win/loss statistics
+
+**Tournament Features:**
+- ✅ Spectator mode (watch AI battles)
+- ✅ Bracket management (8→4→2→1)
+- ✅ Personality-based action selection
+- ✅ Real-time statistics tracking
+- ✅ Interactive demo with 6 modes
+
+See [AI_TOURNAMENT.md](AI_TOURNAMENT.md) for complete documentation!
+
+---
+
+### 3. Transfer Learning
+
+**Potential Enhancement:**
 - Pre-train on simulated battles
 - Transfer knowledge between species
 - Meta-learning across game sessions
 
-**4. Curriculum Learning**
+---
+
+### 4. Curriculum Learning
+
+**Potential Enhancement:**
 - Progressive difficulty
 - Staged training scenarios
 - Guided exploration

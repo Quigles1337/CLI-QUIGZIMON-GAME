@@ -546,34 +546,402 @@ dqn_train_batch:
     ret
 
 ; Backpropagation through network
+; Computes gradients for all layers using chain rule
 dqn_backward:
     push rbp
     mov rbp, rsp
+    push rbx
+    push r12
+    push r13
+    push r14
+    push r15
 
-    ; Backward through output layer
+    ; ========== OUTPUT LAYER BACKWARD ==========
+    ; grad_output already set by caller (TD error)
+
+    ; Compute weight gradients: grad_w = grad_out * activation^T
+    ; For each output neuron
+    xor r12, r12
+.output_neuron_loop:
+    cmp r12, output_size
+    jge .output_done
+
+    ; Get gradient for this output neuron
+    movsx r13, word [grad_output + r12 * 2]
+
+    ; For each hidden2 neuron (input to this layer)
+    xor r14, r14
+.output_weight_loop:
+    cmp r14, hidden2_size
+    jge .output_next_neuron
+
+    ; grad_w[out][h2] = grad_out[out] * h2_activated[h2]
+    movsx rax, word [layer_hidden2_activated + r14 * 2]
+    imul rax, r13
+    sar rax, 12     ; Fixed point division
+
+    ; Weight index: out * hidden2_size + h2
+    mov rbx, r12
+    imul rbx, hidden2_size
+    add rbx, r14
+    mov word [grad_weights_h2_out + rbx * 2], ax
+
+    inc r14
+    jmp .output_weight_loop
+
+.output_next_neuron:
+    ; Bias gradient = output gradient
+    mov word [grad_bias_out + r12 * 2], r13w
+
+    inc r12
+    jmp .output_neuron_loop
+
+.output_done:
+
+    ; ========== HIDDEN2 LAYER BACKWARD ==========
     ; grad_hidden2 = weights_h2_out^T * grad_output
-    ; (Simplified - full implementation would compute Jacobian)
 
-    ; Backward through hidden2
-    ; grad_hidden1 = weights_h1_h2^T * grad_hidden2 * relu'
+    xor r12, r12    ; Hidden2 neuron index
+.hidden2_loop:
+    cmp r12, hidden2_size
+    jge .hidden2_done
 
-    ; Backward through hidden1
-    ; grad_input = weights_in_h1^T * grad_hidden1 * relu'
+    xor rax, rax    ; Accumulator
+    xor r13, r13    ; Output neuron index
 
-    ; Compute weight gradients
-    ; grad_weights = grad_output * activation^T
+.hidden2_backprop:
+    cmp r13, output_size
+    jge .hidden2_relu_derivative
 
+    ; grad += weight[out][h2] * grad_out[out]
+    mov rbx, r13
+    imul rbx, hidden2_size
+    add rbx, r12
+    movsx r14, word [weights_hidden2_output + rbx * 2]
+
+    movsx r15, word [grad_output + r13 * 2]
+    imul r14, r15
+    sar r14, 12
+    add rax, r14
+
+    inc r13
+    jmp .hidden2_backprop
+
+.hidden2_relu_derivative:
+    ; Multiply by ReLU derivative: f'(x) = 1 if x > 0, else 0
+    movsx rbx, word [layer_hidden2 + r12 * 2]
+    cmp rbx, 0
+    jg .hidden2_active
+    xor rax, rax    ; Zero gradient if ReLU didn't activate
+
+.hidden2_active:
+    mov word [grad_hidden2 + r12 * 2], ax
+
+    inc r12
+    jmp .hidden2_loop
+
+.hidden2_done:
+
+    ; Compute hidden1->hidden2 weight gradients
+    xor r12, r12
+.h1_h2_neuron_loop:
+    cmp r12, hidden2_size
+    jge .h1_h2_done
+
+    movsx r13, word [grad_hidden2 + r12 * 2]
+
+    xor r14, r14
+.h1_h2_weight_loop:
+    cmp r14, hidden1_size
+    jge .h1_h2_next
+
+    ; grad_w[h2][h1] = grad_h2[h2] * h1_activated[h1]
+    movsx rax, word [layer_hidden1_activated + r14 * 2]
+    imul rax, r13
+    sar rax, 12
+
+    mov rbx, r12
+    imul rbx, hidden1_size
+    add rbx, r14
+    mov word [grad_weights_h1_h2 + rbx * 2], ax
+
+    inc r14
+    jmp .h1_h2_weight_loop
+
+.h1_h2_next:
+    mov word [grad_bias_h2 + r12 * 2], r13w
+    inc r12
+    jmp .h1_h2_neuron_loop
+
+.h1_h2_done:
+
+    ; ========== HIDDEN1 LAYER BACKWARD ==========
+    ; grad_hidden1 = weights_h1_h2^T * grad_hidden2
+
+    xor r12, r12
+.hidden1_loop:
+    cmp r12, hidden1_size
+    jge .hidden1_done
+
+    xor rax, rax
+    xor r13, r13
+
+.hidden1_backprop:
+    cmp r13, hidden2_size
+    jge .hidden1_relu_derivative
+
+    mov rbx, r13
+    imul rbx, hidden1_size
+    add rbx, r12
+    movsx r14, word [weights_hidden1_hidden2 + rbx * 2]
+
+    movsx r15, word [grad_hidden2 + r13 * 2]
+    imul r14, r15
+    sar r14, 12
+    add rax, r14
+
+    inc r13
+    jmp .hidden1_backprop
+
+.hidden1_relu_derivative:
+    movsx rbx, word [layer_hidden1 + r12 * 2]
+    cmp rbx, 0
+    jg .hidden1_active
+    xor rax, rax
+
+.hidden1_active:
+    mov word [grad_hidden1 + r12 * 2], ax
+
+    inc r12
+    jmp .hidden1_loop
+
+.hidden1_done:
+
+    ; Compute input->hidden1 weight gradients
+    xor r12, r12
+.in_h1_neuron_loop:
+    cmp r12, hidden1_size
+    jge .in_h1_done
+
+    movsx r13, word [grad_hidden1 + r12 * 2]
+
+    xor r14, r14
+.in_h1_weight_loop:
+    cmp r14, input_size
+    jge .in_h1_next
+
+    movsx rax, word [layer_input + r14 * 2]
+    imul rax, r13
+    sar rax, 12
+
+    mov rbx, r12
+    imul rbx, input_size
+    add rbx, r14
+    mov word [grad_weights_in_h1 + rbx * 2], ax
+
+    inc r14
+    jmp .in_h1_weight_loop
+
+.in_h1_next:
+    mov word [grad_bias_h1 + r12 * 2], r13w
+    inc r12
+    jmp .in_h1_neuron_loop
+
+.in_h1_done:
+
+    pop r15
+    pop r14
+    pop r13
+    pop r12
+    pop rbx
     pop rbp
     ret
 
 ; Update weights using gradients
+; Implements Stochastic Gradient Descent (SGD)
+; w = w - learning_rate * gradient
 dqn_update_weights:
     push rbp
     mov rbp, rsp
+    push rbx
+    push r12
+    push r13
 
-    ; weights = weights - learning_rate * gradients
-    ; (Simplified SGD, could add momentum/Adam)
+    movsx r13, word [dqn_learning_rate]
 
+    ; ========== UPDATE INPUT -> HIDDEN1 ==========
+    xor r12, r12
+.update_in_h1:
+    cmp r12, 128    ; 8 * 16 weights
+    jge .update_bias_h1
+
+    ; weight -= learning_rate * gradient
+    lea rbx, [weights_input_hidden1]
+    movsx rax, word [rbx + r12 * 2]
+
+    lea rbx, [grad_weights_in_h1]
+    movsx rcx, word [rbx + r12 * 2]
+    imul rcx, r13
+    sar rcx, 12
+
+    sub rax, rcx
+
+    ; Clamp to prevent overflow
+    cmp rax, 32767
+    jle .check_in_h1_min
+    mov rax, 32767
+    jmp .store_in_h1
+
+.check_in_h1_min:
+    cmp rax, -32768
+    jge .store_in_h1
+    mov rax, -32768
+
+.store_in_h1:
+    lea rbx, [weights_input_hidden1]
+    mov word [rbx + r12 * 2], ax
+
+    inc r12
+    jmp .update_in_h1
+
+.update_bias_h1:
+    xor r12, r12
+.update_bias_h1_loop:
+    cmp r12, 16
+    jge .update_h1_h2
+
+    lea rbx, [bias_hidden1]
+    movsx rax, word [rbx + r12 * 2]
+
+    lea rbx, [grad_bias_h1]
+    movsx rcx, word [rbx + r12 * 2]
+    imul rcx, r13
+    sar rcx, 12
+
+    sub rax, rcx
+
+    lea rbx, [bias_hidden1]
+    mov word [rbx + r12 * 2], ax
+
+    inc r12
+    jmp .update_bias_h1_loop
+
+    ; ========== UPDATE HIDDEN1 -> HIDDEN2 ==========
+.update_h1_h2:
+    xor r12, r12
+.update_h1_h2_loop:
+    cmp r12, 256    ; 16 * 16 weights
+    jge .update_bias_h2
+
+    lea rbx, [weights_hidden1_hidden2]
+    movsx rax, word [rbx + r12 * 2]
+
+    lea rbx, [grad_weights_h1_h2]
+    movsx rcx, word [rbx + r12 * 2]
+    imul rcx, r13
+    sar rcx, 12
+
+    sub rax, rcx
+
+    cmp rax, 32767
+    jle .check_h1_h2_min
+    mov rax, 32767
+    jmp .store_h1_h2
+
+.check_h1_h2_min:
+    cmp rax, -32768
+    jge .store_h1_h2
+    mov rax, -32768
+
+.store_h1_h2:
+    lea rbx, [weights_hidden1_hidden2]
+    mov word [rbx + r12 * 2], ax
+
+    inc r12
+    jmp .update_h1_h2_loop
+
+.update_bias_h2:
+    xor r12, r12
+.update_bias_h2_loop:
+    cmp r12, 16
+    jge .update_h2_out
+
+    lea rbx, [bias_hidden2]
+    movsx rax, word [rbx + r12 * 2]
+
+    lea rbx, [grad_bias_h2]
+    movsx rcx, word [rbx + r12 * 2]
+    imul rcx, r13
+    sar rcx, 12
+
+    sub rax, rcx
+
+    lea rbx, [bias_hidden2]
+    mov word [rbx + r12 * 2], ax
+
+    inc r12
+    jmp .update_bias_h2_loop
+
+    ; ========== UPDATE HIDDEN2 -> OUTPUT ==========
+.update_h2_out:
+    xor r12, r12
+.update_h2_out_loop:
+    cmp r12, 64     ; 16 * 4 weights
+    jge .update_bias_out
+
+    lea rbx, [weights_hidden2_output]
+    movsx rax, word [rbx + r12 * 2]
+
+    lea rbx, [grad_weights_h2_out]
+    movsx rcx, word [rbx + r12 * 2]
+    imul rcx, r13
+    sar rcx, 12
+
+    sub rax, rcx
+
+    cmp rax, 32767
+    jle .check_h2_out_min
+    mov rax, 32767
+    jmp .store_h2_out
+
+.check_h2_out_min:
+    cmp rax, -32768
+    jge .store_h2_out
+    mov rax, -32768
+
+.store_h2_out:
+    lea rbx, [weights_hidden2_output]
+    mov word [rbx + r12 * 2], ax
+
+    inc r12
+    jmp .update_h2_out_loop
+
+.update_bias_out:
+    xor r12, r12
+.update_bias_out_loop:
+    cmp r12, 4
+    jge .done
+
+    lea rbx, [bias_output]
+    movsx rax, word [rbx + r12 * 2]
+
+    lea rbx, [grad_bias_out]
+    movsx rcx, word [rbx + r12 * 2]
+    imul rcx, r13
+    sar rcx, 12
+
+    sub rax, rcx
+
+    lea rbx, [bias_output]
+    mov word [rbx + r12 * 2], ax
+
+    inc r12
+    jmp .update_bias_out_loop
+
+.done:
+    pop r13
+    pop r12
+    pop rbx
     pop rbp
     ret
 
@@ -625,12 +993,55 @@ dqn_update_target_network:
     ret
 
 ; Forward pass with target network
+; Same as dqn_forward but uses target network weights for stability
 dqn_target_forward:
     push rbp
     mov rbp, rsp
 
-    ; (Same as dqn_forward but uses target_ weights)
-    ; Simplified implementation
+    ; Input -> Hidden1 (target network)
+    lea rsi, [layer_input]
+    lea rdi, [target_weights_input_hidden1]
+    lea r8, [target_bias_hidden1]
+    lea rdx, [layer_hidden1]
+    mov rcx, input_size
+    mov r9, hidden1_size
+    call dense_layer
+
+    ; ReLU activation
+    lea rsi, [layer_hidden1]
+    lea rdi, [layer_hidden1_activated]
+    mov rcx, hidden1_size
+    call relu_activation
+
+    ; Hidden1 -> Hidden2 (target network)
+    lea rsi, [layer_hidden1_activated]
+    lea rdi, [target_weights_hidden1_hidden2]
+    lea r8, [target_bias_hidden2]
+    lea rdx, [layer_hidden2]
+    mov rcx, hidden1_size
+    mov r9, hidden2_size
+    call dense_layer
+
+    ; ReLU activation
+    lea rsi, [layer_hidden2]
+    lea rdi, [layer_hidden2_activated]
+    mov rcx, hidden2_size
+    call relu_activation
+
+    ; Hidden2 -> Output (target network)
+    lea rsi, [layer_hidden2_activated]
+    lea rdi, [target_weights_hidden2_output]
+    lea r8, [target_bias_output]
+    lea rdx, [layer_output]
+    mov rcx, hidden2_size
+    mov r9, output_size
+    call dense_layer
+
+    ; Linear activation for output
+    lea rsi, [layer_output]
+    lea rdi, [layer_output_activated]
+    mov rcx, output_size
+    rep movsw
 
     pop rbp
     ret
