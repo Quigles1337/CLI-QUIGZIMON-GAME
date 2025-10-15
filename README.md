@@ -274,37 +274,37 @@ Features:
 ```
 quigzimon/
 ├── 🎮 Game Engine
-│   ├── game.asm                    # Classic demo (~400 lines)
-│   ├── game_enhanced.asm           # Full RPG (~1,200 lines)
-│   └── save_load.asm               # Persistence
+│   ├── game.asm                     Classic demo (~400 lines)
+│   ├── game_enhanced.asm            Full RPG (~1,200 lines)
+│   └── save_load.asm                Persistence
 │
 ├── ⛓️ Blockchain (XRPL)
-│   ├── xrpl_client.asm             # HTTP/JSON (~700 lines)
-│   ├── xrpl_nft.asm                # NFT ops (~600 lines)
-│   ├── xrpl_crypto.asm             # Crypto foundation (~800 lines)
-│   ├── xrpl_crypto_bridge.asm     # Assembly↔C bridge (~400 lines)
-│   ├── xrpl_crypto_wrapper.c      # Libsodium interface (~350 lines)
-│   └── xrpl_demo.asm               # Demo mode (~400 lines)
+│   ├── xrpl_client.asm              HTTP/JSON (~700 lines)
+│   ├── xrpl_nft.asm                 NFT ops (~600 lines)
+│   ├── xrpl_crypto.asm              Crypto foundation (~800 lines)
+│   ├── xrpl_crypto_bridge.asm      Assembly↔C bridge (~400 lines)
+│   ├── xrpl_crypto_wrapper.c       Libsodium interface (~350 lines)
+│   └── xrpl_demo.asm                Demo mode (~400 lines)
 │
 ├── 🧠 Machine Learning AI
-│   ├── ai_qlearning.asm            # Q-Learning (~900 lines)
-│   ├── ai_dqn.asm                  # Deep Q-Network (~800 lines)
-│   └── ai_demo.asm                 # Visualization (~500 lines)
+│   ├── ai_qlearning.asm             Q-Learning (~900 lines)
+│   ├── ai_dqn.asm                   Deep Q-Network (~800 lines)
+│   └── ai_demo.asm                  Visualization (~500 lines)
 │
 ├── 🛠️ Build System
-│   ├── build.bat / .sh             # Classic build
-│   ├── build_enhanced.bat / .sh   # Enhanced build
-│   └── build_xrpl.bat              # Full build with crypto
+│   ├── build.bat / .sh              Classic build
+│   ├── build_enhanced.bat / .sh    Enhanced build
+│   └── build_xrpl.bat               Full build with crypto
 │
 └── 📚 Documentation
-    ├── README.md                   # This file
-    ├── FEATURES.md                 # Complete feature list
-    ├── QUICKSTART.md               # Quick reference
-    ├── AI_SYSTEM.md                # ML documentation
-    ├── XRPL_INTEGRATION.md        # Blockchain architecture
-    ├── XRPL_STATUS.md              # Development roadmap
-    ├── SETUP_XRPL.md               # Installation guide
-    └── PROJECT_SUMMARY.md          # Complete overview
+    ├── README.md                    This file
+    ├── FEATURES.md                  Complete feature list
+    ├── QUICKSTART.md                Quick reference
+    ├── AI_SYSTEM.md                 ML documentation
+    ├── XRPL_INTEGRATION.md         Blockchain architecture
+    ├── XRPL_STATUS.md               Development roadmap
+    ├── SETUP_XRPL.md                Installation guide
+    └── PROJECT_SUMMARY.md           Complete overview
 ```
 
 ---
