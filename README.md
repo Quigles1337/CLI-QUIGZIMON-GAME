@@ -3,7 +3,7 @@
 ```
 ╔═══════════════════════════════════════════════════════════╗
 ║              QUIGZIMON: ASSEMBLY ADVENTURE                ║
-║  Pokemon-Inspired RPG • Blockchain NFTs • AI Learning    ║
+║  Pokemon-Inspired RPG • Blockchain NFTs • AI Learning     ║
 ║              Written in Pure x86-64 Assembly              ║
 ╚═══════════════════════════════════════════════════════════╝
 ```
