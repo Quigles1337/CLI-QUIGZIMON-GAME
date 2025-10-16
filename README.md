@@ -1109,7 +1109,7 @@ Status: LIVE on testnet! 🎉
 
 ## 📜 License
 
-Created by **Quigles1337**
+Created by **Quigles1337** amd **CLaude-Code** (With some MCP sever assistance to CLaude that I built😉)
 
 Open source - learn, modify, and adapt freely!
 
