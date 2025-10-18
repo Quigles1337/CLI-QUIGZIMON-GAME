@@ -1,5 +1,7 @@
 # QUIGZIMON
 
+⚠️IN TESTING RIGHT NOW, DO NOT USE IN PRODUCTION WITH REAL CURRENCY UNTIL TESTING IS COMPLETE⚠️
+
 ```
 ╔═══════════════════════════════════════════════════════════╗
 ║              QUIGZIMON: ASSEMBLY ADVENTURE                ║
